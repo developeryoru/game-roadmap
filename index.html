@@ -11,7 +11,7 @@
 :root {
     --ice-blue: #7dd3fc;
     --frost-border: rgba(125, 211, 252, 0.3);
-    --glass: rgba(10, 25, 47, 0.8);
+    --glass: rgba(10, 25, 47, 0.85);
 }
 
 *{box-sizing:border-box}
@@ -32,105 +32,122 @@ body{
 
 .container{position:relative;z-index:2;max-width:1100px;margin:auto;padding:40px 20px}
 
-/* Заголовок */
 h1 {
     font-family: 'Cinzel', serif;
     text-align: center;
-    letter-spacing: 10px;
-    font-size: 2.5rem;
-    text-shadow: 0 0 15px var(--ice-blue);
+    letter-spacing: 12px;
+    font-size: 3rem;
+    text-shadow: 0 0 20px var(--ice-blue);
     margin-bottom: 40px;
+    color: white;
 }
 
-/* Форма добавления */
+/* Форма */
 .card{
     background: var(--glass);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     border: 1px solid var(--frost-border);
     padding: 25px;
     border-radius: 20px;
     margin-bottom: 30px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
 }
 
 .row{display:flex;flex-wrap:wrap;gap:15px;margin-bottom:15px}
 input, textarea, select {
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.5);
     border: 1px solid var(--frost-border);
     border-radius: 8px;
-    padding: 10px;
+    padding: 12px;
     color: white;
     outline: none;
+    font-family: inherit;
 }
-input:focus { border-color: var(--ice-blue); }
+input:focus { border-color: var(--ice-blue); box-shadow: 0 0 10px rgba(125,211,252,0.2); }
 
 button {
     background: linear-gradient(135deg, #0ea5e9, #0369a1);
-    border: none; padding: 10px 20px; color: white; border-radius: 8px; cursor: pointer;
-    font-weight: 600; transition: 0.3s;
+    border: none; padding: 12px 25px; color: white; border-radius: 8px; cursor: pointer;
+    font-weight: 600; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
 }
-button:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(14, 165, 233, 0.4); }
+button:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(14, 165, 233, 0.4); }
 
 /* --- СПИСОК ЗАДАЧ --- */
 .task {
     margin-top: 15px;
     transition: 0.3s;
-    cursor: grab;
+    position: relative;
+    animation: fadeIn 0.5s ease;
 }
-.task:active { cursor: grabbing; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* Главный пункт */
 .task-root {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--frost-border);
-    border-left: 5px solid var(--ice-blue);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-left: 6px solid var(--ice-blue);
+    padding: 22px;
+    border-radius: 14px;
+    cursor: grab;
 }
-.task-root .taskTitle { font-size: 1.2rem; font-weight: 600; color: var(--ice-blue); }
+.task-root:active { cursor: grabbing; }
+
+.task-root .taskTitle { font-size: 1.25rem; font-weight: 600; color: white; text-shadow: 0 0 10px rgba(125,211,252,0.5); }
 
 /* Дочерний пункт */
 .task-sub {
-    margin-left: 40px;
-    margin-top: 8px;
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px dashed rgba(255,255,255,0.1);
-    padding: 12px 15px;
+    margin-left: 50px;
+    margin-top: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(125, 211, 252, 0.1);
+    padding: 15px;
     border-radius: 10px;
     font-size: 0.95rem;
 }
-.task-sub::before { content: "↳ "; color: var(--ice-blue); font-weight: bold; }
+.task-sub::before { 
+    content: "↳"; 
+    position: absolute; left: -25px; top: 15px; 
+    color: var(--ice-blue); font-size: 1.5rem; 
+}
 
 /* Подсветка при перетаскивании */
 .drag-over {
     border: 2px dashed var(--ice-blue) !important;
     background: rgba(125, 211, 252, 0.1) !important;
+    transform: scale(1.01);
 }
 
-.taskHeader { display: flex; justify-content: space-between; align-items: center; }
-.actions { display: flex; gap: 8px; align-items: center; }
+.taskHeader { display: flex; justify-content: space-between; align-items: center; gap: 15px; }
+.actions { display: flex; gap: 10px; }
 
 /* Индикатор прогресса */
-.progressBar { height: 6px; background: #000; border-radius: 10px; margin-top: 12px; overflow: hidden; }
-.progressFill { height: 100%; background: var(--ice-blue); box-shadow: 0 0 10px var(--ice-blue); transition: 0.5s; }
+.progressBar { height: 8px; background: rgba(0,0,0,0.5); border-radius: 10px; margin-top: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+.progressFill { height: 100%; background: linear-gradient(90deg, #0ea5e9, #7dd3fc); box-shadow: 0 0 15px var(--ice-blue); transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
 
-/* Режим КАРТЫ (Обзор) */
+/* Режим КАРТЫ */
 .mapMode {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
 }
 .mapNode {
-    background: rgba(255,255,255,0.03);
+    background: var(--glass);
     border: 1px solid var(--frost-border);
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
+    padding: 25px;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
 }
+.mapNode::after { content: "❄"; position: absolute; right: -10px; bottom: -10px; font-size: 80px; opacity: 0.05; }
 
-.mode-btns { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
-.mode-btns button { background: rgba(255,255,255,0.1); border: 1px solid var(--frost-border); }
-.mode-btns button.active { background: var(--ice-blue); color: #000; }
+.mode-btns { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; }
+.mode-btns button { background: rgba(255,255,255,0.05); border: 1px solid var(--frost-border); text-transform: none; }
+.mode-btns button.active { background: var(--ice-blue); color: #000; border-color: var(--ice-blue); }
+
+.status-todo { color: #94a3b8; }
+.status-progress { color: #38bdf8; font-weight: 600; }
+.status-done { color: #67e8f9; font-weight: 600; text-shadow: 0 0 8px #67e8f9; }
 
 </style>
 </head>
@@ -142,37 +159,38 @@ button:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(14, 165, 233, 0
     <h1>ROADMAP</h1>
 
     <div class="mode-btns">
-        <button id="btn-list" class="active" onclick="setMode('list')">📋 Список задач</button>
-        <button id="btn-map" onclick="setMode('map')">🗺 Обзор прогресса</button>
+        <button id="btn-list" class="active" onclick="setMode('list')">📋 РЕДАКТОР</button>
+        <button id="btn-map" onclick="setMode('map')">🗺 КАРТА ПРОГРЕССА</button>
     </div>
 
     <div id="editor-zone" class="card">
         <div class="row">
-            <input id="title" placeholder="Название задачи..." style="flex: 2" />
+            <input id="title" placeholder="Название задачи (напр. Генерация льда)..." style="flex: 2" />
             <select id="status">
-                <option value="todo">❄️ Заморожено</option>
-                <option value="progress">💧 В работе</option>
-                <option value="done">✨ Готово</option>
+                <option value="todo">⬜ Заморожено</option>
+                <option value="progress">🔧 В таянии</option>
+                <option value="done">✅ Реализовано</option>
             </select>
         </div>
-        <textarea id="desc" placeholder="Краткое описание..." style="width: 100%; height: 60px;"></textarea>
-        <button onclick="addTask()" style="width: 100%; margin-top: 10px;">СОЗДАТЬ ПУНКТ</button>
+        <textarea id="desc" placeholder="Детали задачи..."></textarea>
+        <button onclick="addTask()" style="width: 100%; margin-top: 10px;">ДОБАВИТЬ В ПЛАН</button>
     </div>
 
     <div id="content"></div>
 </div>
 
 <script>
-let tasks = JSON.parse(localStorage.getItem("roadmap_data") || "[]");
+// ВАЖНО: Ключ изменен обратно на roadmap_tasks, чтобы вернуть твои данные!
+let tasks = JSON.parse(localStorage.getItem("roadmap_tasks") || "[]");
 let mode = 'list';
 let draggedId = null;
 
-function save() { localStorage.setItem("roadmap_data", JSON.stringify(tasks)); }
+function save() { localStorage.setItem("roadmap_tasks", JSON.stringify(tasks)); }
 
 function setMode(m) {
     mode = m;
-    document.getElementById('btn-list').className = (m === 'list' ? 'active' : '');
-    document.getElementById('btn-map').className = (m === 'map' ? 'active' : '');
+    document.getElementById('btn-list').classList.toggle('active', m === 'list');
+    document.getElementById('btn-map').classList.toggle('active', m === 'map');
     document.getElementById('editor-zone').style.display = (m === 'list' ? 'block' : 'none');
     render();
 }
@@ -191,7 +209,7 @@ function addTask() {
 }
 
 function removeTask(id) {
-    if(!confirm("Удалить пункт?")) return;
+    if(!confirm("Удалить этот пункт и его подзадачи?")) return;
     tasks = tasks.filter(t => t.id !== id && t.parent !== id);
     save();
     render();
@@ -199,10 +217,14 @@ function removeTask(id) {
 
 function editTask(id) {
     let t = tasks.find(x => x.id === id);
-    let newTitle = prompt("Изменить название:", t.title);
-    if(newTitle) t.title = newTitle;
-    save();
-    render();
+    let n = prompt("Новое название:", t.title);
+    if(n !== null && n.trim() !== "") {
+        t.title = n;
+        let d = prompt("Новое описание:", t.desc || "");
+        if(d !== null) t.desc = d;
+        save();
+        render();
+    }
 }
 
 function changeStatus(id, newStatus) {
@@ -212,7 +234,7 @@ function changeStatus(id, newStatus) {
     render();
 }
 
-// Drag & Drop
+// Drag & Drop Логика
 function onDragStart(id) { draggedId = id; }
 function onDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
 function onDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
@@ -224,7 +246,6 @@ function onDrop(e, targetId) {
     let draggedTask = tasks.find(t => t.id === draggedId);
     let targetTask = tasks.find(t => t.id === targetId);
 
-    // Только если цель - не подзадача сама по себе (1 уровень вложенности)
     if (draggedTask && targetTask && targetTask.parent === null) {
         draggedTask.parent = targetId;
         save();
@@ -234,7 +255,9 @@ function onDrop(e, targetId) {
 
 function calculateProgress(parentId) {
     let children = tasks.filter(t => t.parent === parentId);
-    if (children.length === 0) return tasks.find(t => t.id === parentId).status === 'done' ? 100 : 0;
+    if (children.length === 0) {
+        return tasks.find(t => t.id === parentId).status === 'done' ? 100 : 0;
+    }
     let done = children.filter(c => c.status === 'done').length;
     return Math.round((done / children.length) * 100);
 }
@@ -242,17 +265,23 @@ function calculateProgress(parentId) {
 function render() {
     const container = document.getElementById('content');
     container.innerHTML = '';
+    const rootTasks = tasks.filter(t => !t.parent);
 
     if (mode === 'map') {
         container.className = 'mapMode';
-        tasks.filter(t => !t.parent).forEach(root => {
+        rootTasks.forEach(root => {
             let prog = calculateProgress(root.id);
+            let children = tasks.filter(t => t.parent === root.id);
             let node = document.createElement('div');
             node.className = 'mapNode';
             node.innerHTML = `
-                <div style="font-weight:bold; color:var(--ice-blue)">${root.title}</div>
-                <div style="font-size:0.8rem; margin:10px 0">${prog}%</div>
+                <div style="font-weight:bold; color:var(--ice-blue); font-size:1.2rem; margin-bottom:10px;">${root.title}</div>
+                <div style="font-size:0.85rem; opacity:0.8; margin-bottom:15px;">${root.desc || 'Без описания'}</div>
+                <div style="font-size:0.8rem; margin-bottom:5px">Прогресс раздела: ${prog}%</div>
                 <div class="progressBar"><div class="progressFill" style="width:${prog}%"></div></div>
+                <div style="margin-top:15px; font-size:0.8rem; opacity:0.6;">
+                    ${children.map(c => `<div>${c.status === 'done' ? '✅' : '❄️'} ${c.title}</div>`).join('')}
+                </div>
             `;
             container.appendChild(node);
         });
@@ -260,8 +289,6 @@ function render() {
     }
 
     container.className = '';
-    const rootTasks = tasks.filter(t => !t.parent);
-
     rootTasks.forEach(task => {
         let prog = calculateProgress(task.id);
         let div = document.createElement('div');
@@ -278,32 +305,32 @@ function render() {
                 <div class="actions">
                     <select onchange="changeStatus(${task.id}, this.value)">
                         <option value="todo" ${task.status==='todo'?'selected':''}>❄️</option>
-                        <option value="progress" ${task.status==='progress'?'selected':''}>💧</option>
-                        <option value="done" ${task.status==='done'?'selected':''}>✨</option>
+                        <option value="progress" ${task.status==='progress'?'selected':''}>🔧</option>
+                        <option value="done" ${task.status==='done'?'selected':''}>✅</option>
                     </select>
-                    <button onclick="editTask(${task.id})" style="padding:5px 10px; background:none; border:1px solid var(--frost-border)">✎</button>
-                    <button onclick="removeTask(${task.id})" style="padding:5px 10px; background:rgba(248,113,113,0.2)">✕</button>
+                    <button onclick="editTask(${task.id})" style="background:rgba(255,255,255,0.1); border:1px solid var(--frost-border); padding:5px 10px;">✎</button>
+                    <button onclick="removeTask(${task.id})" style="background:rgba(248,113,113,0.1); color:#fca5a5; padding:5px 10px;">✕</button>
                 </div>
             </div>
-            <div style="font-size:0.85rem; opacity:0.7; margin-top:8px">${task.desc}</div>
+            <div style="font-size:0.9rem; opacity:0.7; margin-top:8px">${task.desc || ''}</div>
             <div class="progressBar"><div class="progressFill" style="width:${prog}%"></div></div>
         `;
         container.appendChild(div);
 
-        // Подзадачи
+        // Дочерние задачи
         tasks.filter(t => t.parent === task.id).forEach(sub => {
             let subDiv = document.createElement('div');
             subDiv.className = 'task task-sub';
             subDiv.innerHTML = `
                 <div class="taskHeader">
-                    <div>${sub.title}</div>
+                    <div style="color:${sub.status==='done'?'#67e8f9':'white'}">${sub.title}</div>
                     <div class="actions">
-                        <select onchange="changeStatus(${sub.id}, this.value)">
+                        <select onchange="changeStatus(${sub.id}, this.value)" style="padding:2px; font-size:12px;">
                             <option value="todo" ${sub.status==='todo'?'selected':''}>❄️</option>
-                            <option value="progress" ${sub.status==='progress'?'selected':''}>💧</option>
-                            <option value="done" ${sub.status==='done'?'selected':''}>✨</option>
+                            <option value="progress" ${sub.status==='progress'?'selected':''}>🔧</option>
+                            <option value="done" ${sub.status==='done'?'selected':''}>✅</option>
                         </select>
-                        <button onclick="removeTask(${sub.id})" style="background:none; color:red">✕</button>
+                        <button onclick="removeTask(${sub.id})" style="background:none; color:#fca5a5; padding:0 5px;">✕</button>
                     </div>
                 </div>
             `;
@@ -312,16 +339,16 @@ function render() {
     });
 }
 
-// Снег
-const snow = document.getElementById('snow');
-for(let i=0; i<30; i++){
+// Эффект снега
+const snowContainer = document.getElementById('snow');
+for(let i=0; i<45; i++){
     let s = document.createElement('span');
     s.innerHTML = '❄';
     s.style.left = Math.random()*100+'%';
     s.style.fontSize = (Math.random()*15+10)+'px';
-    s.style.animationDuration = (Math.random()*10+5)+'s';
+    s.style.animationDuration = (Math.random()*12+6)+'s';
     s.style.animationDelay = Math.random()*5+'s';
-    snow.appendChild(s);
+    snowContainer.appendChild(s);
 }
 
 render();
