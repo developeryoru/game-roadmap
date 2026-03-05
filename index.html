@@ -3,156 +3,157 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Game Development Roadmap</title>
+<title>Frozen Roadmap</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Cinzel:wght@500&display=swap" rel="stylesheet">
 
 <style>
+:root {
+    --ice-blue: #7dd3fc;
+    --deep-frost: #0ea5e9;
+    --snow-white: #e6f4ff;
+    --glass-bg: rgba(10, 25, 47, 0.75);
+}
+
 *{box-sizing:border-box}
 
 body{
-margin:0;
-font-family:Inter,sans-serif;
-color:#e6f4ff;
-min-height:100vh;
-background:linear-gradient(135deg,#020617,#0b1d35,#143a5a,#0b3b5a,#020617);
-background-size:400% 400%;
-animation:gradientMove 50s ease infinite;
-overflow-x:hidden;
+    margin:0;
+    font-family: 'Inter', sans-serif;
+    color: var(--snow-white);
+    min-height: 100vh;
+    background: radial-gradient(circle at center, #0b2d4d 0%, #020617 100%);
+    overflow-x: hidden;
 }
 
-@keyframes gradientMove{
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
-}
-
-/* snow background */
+/* Эффект падающего снега */
 .snow{position:fixed;width:100%;height:100%;pointer-events:none;z-index:0}
-.snow span{position:absolute;color:#bfe9ff;animation:fall linear infinite;opacity:.8}
-@keyframes fall{0%{transform:translateY(-10vh)}100%{transform:translateY(110vh)}}
+.snow span{position:absolute;color:#fff;animation:fall linear infinite;opacity:.6; filter: blur(1px);}
+@keyframes fall{0%{transform:translateY(-10vh) rotate(0deg)}100%{transform:translateY(110vh) rotate(360deg)}}
 
-.container{position:relative;z-index:2;max-width:1300px;margin:auto;padding:40px 25px 80px}
+.container{position:relative;z-index:2;max-width:1100px;margin:auto;padding:60px 20px}
 
-h1{font-family:Cinzel,serif;letter-spacing:3px;font-weight:500;margin-bottom:10px}
-.subtitle{opacity:.7;margin-bottom:25px}
+h1{
+    font-family: 'Cinzel', serif;
+    text-align: center;
+    font-size: 3rem;
+    letter-spacing: 8px;
+    text-shadow: 0 0 20px rgba(125, 211, 252, 0.6);
+    margin-bottom: 40px;
+}
 
+/* Стили карточек */
 .card{
-background:rgba(10,25,47,.65);
-backdrop-filter:blur(14px);
-border:1px solid rgba(148,163,184,.2);
-padding:25px;
-border-radius:18px;
-margin-bottom:30px;
-box-shadow:0 10px 35px rgba(0,0,0,.5);
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.6);
 }
 
 .row{display:flex;flex-wrap:wrap;gap:15px;align-items:center}
 
-input,textarea,select{
-background:rgba(2,6,23,.85);
-border:1px solid rgba(148,163,184,.25);
-border-radius:8px;
-padding:10px 12px;
-color:#e6f4ff;
-font-family:inherit;
-}
-input:focus, textarea:focus, select:focus {
-outline: none;
-border-color: #38bdf8;
+input, textarea, select {
+    background: rgba(2, 6, 23, 0.8);
+    border: 1px solid rgba(125, 211, 252, 0.3);
+    border-radius: 10px;
+    padding: 12px;
+    color: white;
+    transition: 0.3s;
 }
 
-textarea{width:100%;height:80px; resize: vertical;}
-
-button{
-background:linear-gradient(135deg,#67e8f9,#38bdf8,#0ea5e9);
-border:none;padding:10px 18px;color:#020617;border-radius:8px;font-weight:600;cursor:pointer;
-transition: transform 0.1s, box-shadow 0.2s;
+input:focus, textarea:focus {
+    border-color: var(--ice-blue);
+    box-shadow: 0 0 10px rgba(125, 211, 252, 0.4);
+    outline: none;
 }
+
+button {
+    background: linear-gradient(135deg, #38bdf8, #0369a1);
+    border: none;
+    padding: 12px 24px;
+    color: white;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 button:hover {
-transform: translateY(-1px);
-box-shadow: 0 4px 12px rgba(56,189,248,0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
 }
-button.danger {
-background: linear-gradient(135deg, #fda4af, #f43f5e, #e11d48);
-color: white;
-}
-button.icon-btn {
-padding: 6px 10px;
-font-size: 14px;
-background: rgba(148,163,184,.2);
-color: #e6f4ff;
-}
-button.icon-btn:hover { background: rgba(148,163,184,.4); }
 
-/* --- ОБНОВЛЕННЫЙ ДИЗАЙН ЗАДАЧ --- */
+/* Задачи */
 .task {
-position: relative;
-border-radius: 14px;
-cursor: grab;
-transition: all 0.2s ease;
+    margin-top: 15px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: slideIn 0.5s ease-out;
 }
-.task:active { cursor: grabbing; }
 
-/* Дизайн Главного пункта */
-.task-root {
-margin-top: 20px;
-padding: 20px;
-background: linear-gradient(145deg, rgba(15, 30, 55, 0.9), rgba(2, 6, 23, 0.95));
-border: 1px solid rgba(148,163,184,.2);
-border-left: 5px solid #0ea5e9;
-box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-.task-root .taskTitle { font-weight: 600; font-size: 18px; color: #bae6fd; letter-spacing: 0.5px;}
 
-/* Дизайн Подпункта (дочернего) */
+.task-main {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(125, 211, 252, 0.2);
+    border-left: 4px solid var(--ice-blue);
+    padding: 20px;
+    border-radius: 15px;
+}
+
 .task-sub {
-margin-top: 10px;
-margin-left: 45px;
-padding: 14px 16px;
-background: rgba(2, 6, 23, 0.6);
-border: 1px solid rgba(148,163,184,.15);
-border-left: 2px solid rgba(148,163,184,.4);
+    margin-left: 50px;
+    background: rgba(2, 6, 23, 0.4);
+    border: 1px dashed rgba(125, 211, 252, 0.3);
+    padding: 15px;
+    border-radius: 12px;
+    position: relative;
 }
+
 .task-sub::before {
-content: "↳";
-position: absolute;
-left: -25px;
-top: 14px;
-color: rgba(148,163,184,.6);
-font-size: 18px;
-}
-.task-sub .taskTitle { font-weight: 400; font-size: 15px; }
-
-/* Эффект при наведении во время Drag & Drop */
-.drag-over {
-border: 2px dashed #38bdf8;
-background: rgba(56, 189, 248, 0.1);
+    content: "❄";
+    position: absolute;
+    left: -30px;
+    top: 15px;
+    color: var(--ice-blue);
 }
 
-.taskHeader{display:flex;gap:12px;align-items:center;flex-wrap:wrap; margin-bottom: 8px;}
-.small{font-size:13px;opacity:.8; line-height: 1.4;}
+.taskHeader { display: flex; justify-content: space-between; align-items: center; gap: 15px; }
 
-.statusTodo{color:#94a3b8; font-weight: 600; font-size: 13px; background: rgba(148,163,184,0.1); padding: 4px 8px; border-radius: 6px;}
-.statusProgress{color:#38bdf8; font-weight: 600; font-size: 13px; background: rgba(56,189,248,0.1); padding: 4px 8px; border-radius: 6px;}
-.statusDone{color:#67e8f9; font-weight: 600; font-size: 13px; background: rgba(103,232,249,0.1); padding: 4px 8px; border-radius: 6px;}
+.title-text { font-size: 1.1rem; font-weight: 600; color: #bae6fd; }
 
-.progressBar{height:8px;background:#020617;border-radius:20px;margin-top:12px;overflow:hidden;border:1px solid rgba(148,163,184,.2)}
-.progressFill{height:100%;background:linear-gradient(90deg,#67e8f9,#38bdf8,#0ea5e9); transition: width 0.4s ease;}
+.status-badge {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(0,0,0,0.3);
+}
 
-.toggle{cursor:pointer;font-size:16px; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border-radius: 4px; transition: 0.2s;}
-.toggle:hover { background: rgba(255,255,255,0.2); }
-.deadline{font-size:12px;color: #fca5a5; margin-top: 8px; display: inline-block;}
-.search{width:260px; max-width: 100%;}
+.progressBar {
+    height: 6px;
+    background: #020617;
+    border-radius: 10px;
+    margin-top: 15px;
+    overflow: hidden;
+}
 
-.dropHint{margin-top:12px;font-size:12px;opacity:.6; color: #bae6fd;}
+.progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, #0ea5e9, #7dd3fc);
+    box-shadow: 0 0 10px #7dd3fc;
+}
 
-.mapMode{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:20px}
-.mapNode{background:rgba(2,6,23,.9);padding:20px;border-radius:16px;border:1px solid rgba(148,163,184,.25);position:relative; box-shadow: 0 8px 25px rgba(0,0,0,0.4);}
-.mapNode:after{content:"❄";position:absolute;top:-10px;right:-10px;font-size:18px;color:#7dd3fc}
-.modeSwitch{margin-bottom:25px; display: flex; gap: 10px;}
+.btn-edit { background: none; border: 1px solid #94a3b8; color: #94a3b8; padding: 5px 10px; font-size: 12px; }
+.btn-delete { background: none; color: #f87171; border: 1px solid #f87171; padding: 5px 10px; font-size: 12px; margin-left: 5px;}
 
-.actions-group { display: flex; gap: 6px; margin-left: auto; }
+.mode-switch { margin-bottom: 30px; display: flex; gap: 10px; justify-content: center; }
 
 </style>
 </head>
@@ -161,322 +162,142 @@ background: rgba(56, 189, 248, 0.1);
 <div class="snow" id="snow"></div>
 
 <div class="container">
+    <h1>ROADMAP</h1>
 
-<h1>❄ Development Roadmap</h1>
-<div class="subtitle">План разработки игры</div>
+    <div class="mode-switch">
+        <button onclick="setMode('list')">Список</button>
+        <button onclick="setMode('map')">Карта инея</button>
+    </div>
 
-<div class="modeSwitch">
-<button onclick="setMode('list')">📋 Список</button>
-<button onclick="setMode('map')">🗺 Карта разработки</button>
-</div>
+    <div class="card">
+        <div class="row">
+            <input id="title" placeholder="Название этапа..." style="flex: 2" />
+            <select id="status">
+                <option value="todo">Заморожено</option>
+                <option value="progress">В таянии (Работа)</option>
+                <option value="done">Реализовано</option>
+            </select>
+            <input type="date" id="deadline" />
+        </div>
+        <textarea id="desc" placeholder="Описание задачи..." style="width:100%; margin-top:15px;"></textarea>
+        <button onclick="addTask()" style="margin-top:15px; width:100%;">Добавить в план</button>
+    </div>
 
-<div class="card">
-<div class="row" style="justify-content:space-between; margin-bottom: 20px;">
-<h3 style="margin: 0;">Добавить задачу</h3>
-<input class="search" id="search" placeholder="Поиск по задачам..." oninput="render()" />
-</div>
-
-<div class="row">
-<input id="title" placeholder="Название задачи" style="flex: 1; min-width: 200px;" />
-<select id="status">
-<option value="todo">⬜ Не начато</option>
-<option value="progress">🔧 В работе</option>
-<option value="done">✅ Сделано</option>
-</select>
-<input type="date" id="deadline" />
-</div>
-
-<br>
-<textarea id="desc" placeholder="Описание (что реализовано или что нужно сделать)"></textarea>
-<br><br>
-<button onclick="addTask()">+ Создать задачу</button>
-
-<div class="dropHint">💡 <b>Подсказка:</b> создавай задачи отдельно, а затем перетаскивай одну в другую, чтобы сделать её подпунктом.</div>
-</div>
-
-<div id="list"></div>
-
+    <div id="list"></div>
 </div>
 
 <script>
-let tasks = JSON.parse(localStorage.getItem("roadmap_tasks")||"[]")
-let collapsed = {}
-let mode='list'
-let dragged=null
+let tasks = JSON.parse(localStorage.getItem("roadmap_tasks")||"[]");
+let mode = 'list';
 
-function save(){localStorage.setItem("roadmap_tasks",JSON.stringify(tasks))}
-
-function setMode(newMode) {
-    mode = newMode;
-    render();
-}
-
-function statusText(s){
-if(s==='todo')return 'Не начато'
-if(s==='progress')return 'В работе'
-return 'Сделано'
-}
-
-function statusClass(s){
-if(s==='todo')return 'statusTodo'
-if(s==='progress')return 'statusProgress'
-return 'statusDone'
-}
+function save(){ localStorage.setItem("roadmap_tasks", JSON.stringify(tasks)); }
 
 function addTask(){
-let title=document.getElementById('title').value
-let desc=document.getElementById('desc').value
-let status=document.getElementById('status').value
-let deadline=document.getElementById('deadline').value
+    let title = document.getElementById('title').value;
+    let desc = document.getElementById('desc').value;
+    let status = document.getElementById('status').value;
+    let deadline = document.getElementById('deadline').value;
 
-if(!title) {
-    alert("Пожалуйста, введи название задачи!");
-    return;
+    if(!title) return;
+
+    tasks.push({ id: Date.now(), title, desc, status, deadline, parent: null });
+    save();
+    render();
+    document.getElementById('title').value = '';
 }
 
-let task={
- id:Date.now(),
- title,
- desc,
- status,
- deadline,
- parent:null
-}
-
-tasks.push(task)
-save()
-render()
-
-// Очистка полей
-document.getElementById('title').value = '';
-document.getElementById('desc').value = '';
-}
+function setMode(m) { mode = m; render(); }
 
 function removeTask(id){
- if(confirm("Точно удалить эту задачу?")) {
-    // Удаляем саму задачу и все её дочерние элементы
     tasks = tasks.filter(t => t.id !== id && t.parent !== id);
     save();
     render();
- }
 }
 
-function editTask(id) {
+function editTask(id){
     let t = tasks.find(x => x.id === id);
-    if (!t) return;
-    
-    let newTitle = prompt("Изменить название:", t.title);
-    if (newTitle === null) return; // Нажали Отмена
-    
-    let newDesc = prompt("Изменить описание:", t.desc || "");
-    if (newDesc === null) return;
-
-    t.title = newTitle.trim() !== "" ? newTitle : t.title;
-    t.desc = newDesc;
-    
+    let n = prompt("Новое название:", t.title);
+    if(n) t.title = n;
     save();
     render();
 }
 
-function setStatus(id,s){
- let t=tasks.find(x=>x.id===id)
- if(t) t.status=s
- save()
- render()
+function dropToTask(draggedId, targetId){
+    if(draggedId === targetId) return;
+    let task = tasks.find(t => t.id === draggedId);
+    task.parent = targetId;
+    save();
+    render();
 }
 
-function getChildren(id){
- return tasks.filter(t=>t.parent===id)
-}
-
-function calculateProgress(task){
- let children=getChildren(task.id)
- if(children.length===0){
-    return task.status==='done'?100:0
- }
- let done=0
- children.forEach(c=>{if(c.status==='done')done++})
- return Math.round((done/children.length)*100)
-}
-
-function toggle(id){
- collapsed[id]=!collapsed[id]
- render()
-}
-
-// Drag & Drop логика
-function dragStart(e, id){
- dragged=id;
- e.dataTransfer.effectAllowed = "move";
- // Небольшая задержка, чтобы элемент не исчезал из-под курсора
- setTimeout(() => e.target.style.opacity = "0.5", 0);
-}
-
-function dragEnd(e) {
-    e.target.style.opacity = "1";
-    document.querySelectorAll('.task').forEach(el => el.classList.remove('drag-over'));
-}
-
-function dragOver(e, currentDiv) {
-    e.preventDefault();
-    currentDiv.classList.add('drag-over');
-}
-
-function dragLeave(e, currentDiv) {
-    currentDiv.classList.remove('drag-over');
-}
-
-function dropTask(e, targetId){
- e.preventDefault();
- document.querySelectorAll('.task').forEach(el => el.classList.remove('drag-over'));
-
- if(dragged===null || dragged===targetId) return;
-
- // Запрет на вложенность больше 1 уровня (чтобы подзадача не стала родителем другой подзадачи)
- let targetTask = tasks.find(t=>t.id===targetId);
- let draggedTask = tasks.find(t=>t.id===dragged);
- 
- if(draggedTask && targetTask) {
-    if(targetTask.parent !== null) {
-        alert("Нельзя поместить задачу внутрь подзадачи. Только в главные пункты!");
-        return;
-    }
-    draggedTask.parent=targetId;
- }
-
- dragged=null;
- save();
- render();
-}
-
-// Позволяет "вытащить" задачу из списка (сделать её снова главной)
-function dropToRoot(e) {
-    e.preventDefault();
-    if(dragged===null) return;
-    
-    // Если бросили прямо на контейнер #list, а не на другую задачу
-    if (e.target.id === 'list' || e.target.className === 'container') {
-        let draggedTask = tasks.find(t=>t.id===dragged);
-        if(draggedTask) draggedTask.parent = null;
-        dragged = null;
-        save();
-        render();
-    }
+function calculateProgress(id){
+    let children = tasks.filter(t => t.parent === id);
+    if(children.length === 0) return tasks.find(t => t.id === id).status === 'done' ? 100 : 0;
+    let done = children.filter(c => c.status === 'done').length;
+    return Math.round((done / children.length) * 100);
 }
 
 function render(){
- let list=document.getElementById('list')
- list.innerHTML=''
- 
- // Обработчики для сброса задачи в корень
- list.ondragover = (e) => e.preventDefault();
- list.ondrop = dropToRoot;
+    const list = document.getElementById('list');
+    list.innerHTML = '';
+    const roots = tasks.filter(t => !t.parent);
 
- let search=document.getElementById('search').value.toLowerCase()
- let root=tasks.filter(t=>!t.parent)
+    roots.forEach(task => {
+        let div = document.createElement('div');
+        div.className = 'task task-main';
+        div.draggable = true;
+        div.ondragstart = (e) => e.dataTransfer.setData("text", task.id);
+        div.ondragover = (e) => e.preventDefault();
+        div.ondrop = (e) => {
+            e.preventDefault();
+            dropToTask(parseInt(e.dataTransfer.getData("text")), task.id);
+        };
 
- if(mode==='map'){
- list.className='mapMode'
- root.forEach(t=>{
- let progress=calculateProgress(t)
- let children=getChildren(t.id)
+        let progress = calculateProgress(task.id);
+        
+        div.innerHTML = `
+            <div class="taskHeader">
+                <span class="title-text">${task.title}</span>
+                <div>
+                    <span class="status-badge">${task.status}</span>
+                    <button class="btn-edit" onclick="editTask(${task.id})">✎</button>
+                    <button class="btn-delete" onclick="removeTask(${task.id})">✕</button>
+                </div>
+            </div>
+            <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 10px;">${task.desc}</div>
+            <div class="progressBar"><div class="progressFill" style="width: ${progress}%"></div></div>
+        `;
 
- let node=document.createElement('div')
- node.className='mapNode'
+        list.appendChild(div);
 
- node.innerHTML=`
- <strong>${t.title}</strong>
- <div class="small" style="margin-top:8px;">Прогресс: ${progress}%</div>
- <div class="progressBar"><div class="progressFill" style="width:${progress}%"></div></div>
- <div style="margin-top:12px;">
- ${children.map(c=>`<div class="small" style="margin-bottom:4px;">• ${c.title} ${c.status==='done'?'✅':''}</div>`).join('')}
- </div>
- `
- list.appendChild(node)
- })
- return
- }
-
- list.className=''
- root.forEach(t=>drawTask(t,list,search))
+        // Рендер подзадач
+        tasks.filter(t => t.parent === task.id).forEach(sub => {
+            let subDiv = document.createElement('div');
+            subDiv.className = 'task task-sub';
+            subDiv.innerHTML = `
+                <div class="taskHeader">
+                    <span>${sub.title}</span>
+                    <button class="btn-delete" onclick="removeTask(${sub.id})">✕</button>
+                </div>
+            `;
+            list.appendChild(subDiv);
+        });
+    });
 }
 
-function drawTask(task,container,search){
- if(search && !task.title.toLowerCase().includes(search) && !(task.desc||'').toLowerCase().includes(search)) return
-
- let children=getChildren(task.id)
- let progress=calculateProgress(task)
- let isRoot = task.parent === null;
-
- let div=document.createElement('div')
- // Разные классы для главного пункта и подпункта
- div.className='task ' + (isRoot ? 'task-root' : 'task-sub')
-
- div.draggable=true
- div.ondragstart=(e)=>dragStart(e, task.id)
- div.ondragend=(e)=>dragEnd(e)
- div.ondragover=(e)=>dragOver(e, div)
- div.ondragleave=(e)=>dragLeave(e, div)
- div.ondrop=(e)=>{
-    e.stopPropagation(); // Чтобы не срабатывал dropToRoot
-    dropTask(e, task.id)
- }
-
- let progressHTML = (isRoot && children.length)
- ? `<div class="small" style="margin-top:12px;">Прогресс раздела: <b>${progress}%</b></div>
- <div class="progressBar"><div class="progressFill" style="width:${progress}%"></div></div>`
- : ''
-
- let deadlineHTML = task.deadline ? `<div class="deadline">📅 Дедлайн: ${task.deadline}</div><br>` : ''
-
- let toggleBtn = children.length ? `<span class="toggle" onclick="toggle(${task.id})">${collapsed[task.id]?'▶':'▼'}</span>` : ''
-
- div.innerHTML=`
- <div class="taskHeader">
- ${toggleBtn}
- <div class="taskTitle">${task.title}</div>
- <div class="${statusClass(task.status)}">${statusText(task.status)}</div>
-
- <select style="padding: 4px 8px; font-size: 12px; margin-left: auto;" onchange="setStatus(${task.id},this.value)">
- <option value="todo" ${task.status==='todo'?'selected':''}>⬜</option>
- <option value="progress" ${task.status==='progress'?'selected':''}>🔧</option>
- <option value="done" ${task.status==='done'?'selected':''}>✅</option>
- </select>
-
- <div class="actions-group">
-    <button class="icon-btn" onclick="editTask(${task.id})" title="Редактировать">✎</button>
-    <button class="icon-btn danger" onclick="removeTask(${task.id})" title="Удалить">✕</button>
- </div>
- </div>
-
- <div class="small">${task.desc||''}</div>
-
- ${deadlineHTML}
- ${progressHTML}
- `
-
- container.appendChild(div)
-
- if(!collapsed[task.id]){
- children.forEach(c=>drawTask(c,container,search))
- }
+// Снег
+let snowCont = document.getElementById('snow');
+for(let i=0; i<50; i++){
+    let s = document.createElement('span');
+    s.innerHTML = '❄';
+    s.style.left = Math.random()*100+'%';
+    s.style.fontSize = (Math.random()*20+10)+'px';
+    s.style.animationDuration = (Math.random()*10+5)+'s';
+    s.style.animationDelay = Math.random()*5+'s';
+    snowCont.appendChild(s);
 }
 
-/* snow generation */
-let snow=document.getElementById('snow')
-for(let i=0;i<40;i++){
- let s=document.createElement('span')
- s.innerHTML='❄'
- s.style.left=Math.random()*100+'%'
- s.style.fontSize=(10+Math.random()*14)+'px'
- s.style.animationDuration=(10+Math.random()*20)+'s'
- s.style.animationDelay=Math.random()*10+'s'
- snow.appendChild(s)
-}
-
-render()
-
+render();
 </script>
-
 </body>
 </html>
