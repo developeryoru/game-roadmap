@@ -10,9 +10,8 @@
 <style>
 :root {
     --ice-blue: #7dd3fc;
-    --deep-frost: #0ea5e9;
-    --snow-white: #e6f4ff;
-    --glass-bg: rgba(10, 25, 47, 0.75);
+    --frost-border: rgba(125, 211, 252, 0.3);
+    --glass: rgba(10, 25, 47, 0.8);
 }
 
 *{box-sizing:border-box}
@@ -20,140 +19,118 @@
 body{
     margin:0;
     font-family: 'Inter', sans-serif;
-    color: var(--snow-white);
+    color: #e6f4ff;
     min-height: 100vh;
     background: radial-gradient(circle at center, #0b2d4d 0%, #020617 100%);
     overflow-x: hidden;
 }
 
-/* Эффект падающего снега */
+/* Снег */
 .snow{position:fixed;width:100%;height:100%;pointer-events:none;z-index:0}
-.snow span{position:absolute;color:#fff;animation:fall linear infinite;opacity:.6; filter: blur(1px);}
-@keyframes fall{0%{transform:translateY(-10vh) rotate(0deg)}100%{transform:translateY(110vh) rotate(360deg)}}
+.snow span{position:absolute;color:#fff;animation:fall linear infinite;opacity:0.5;}
+@keyframes fall{0%{transform:translateY(-10vh)}100%{transform:translateY(110vh)}}
 
-.container{position:relative;z-index:2;max-width:1100px;margin:auto;padding:60px 20px}
+.container{position:relative;z-index:2;max-width:1100px;margin:auto;padding:40px 20px}
 
-h1{
+/* Заголовок */
+h1 {
     font-family: 'Cinzel', serif;
     text-align: center;
-    font-size: 3rem;
-    letter-spacing: 8px;
-    text-shadow: 0 0 20px rgba(125, 211, 252, 0.6);
+    letter-spacing: 10px;
+    font-size: 2.5rem;
+    text-shadow: 0 0 15px var(--ice-blue);
     margin-bottom: 40px;
 }
 
-/* Стили карточек */
+/* Форма добавления */
 .card{
-    background: var(--glass-bg);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 30px;
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--frost-border);
+    padding: 25px;
     border-radius: 20px;
     margin-bottom: 30px;
-    box-shadow: 0 15px 45px rgba(0,0,0,0.6);
 }
 
-.row{display:flex;flex-wrap:wrap;gap:15px;align-items:center}
-
+.row{display:flex;flex-wrap:wrap;gap:15px;margin-bottom:15px}
 input, textarea, select {
-    background: rgba(2, 6, 23, 0.8);
-    border: 1px solid rgba(125, 211, 252, 0.3);
-    border-radius: 10px;
-    padding: 12px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--frost-border);
+    border-radius: 8px;
+    padding: 10px;
     color: white;
-    transition: 0.3s;
-}
-
-input:focus, textarea:focus {
-    border-color: var(--ice-blue);
-    box-shadow: 0 0 10px rgba(125, 211, 252, 0.4);
     outline: none;
 }
+input:focus { border-color: var(--ice-blue); }
 
 button {
-    background: linear-gradient(135deg, #38bdf8, #0369a1);
-    border: none;
-    padding: 12px 24px;
-    color: white;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    background: linear-gradient(135deg, #0ea5e9, #0369a1);
+    border: none; padding: 10px 20px; color: white; border-radius: 8px; cursor: pointer;
+    font-weight: 600; transition: 0.3s;
 }
+button:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(14, 165, 233, 0.4); }
 
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
-}
-
-/* Задачи */
+/* --- СПИСОК ЗАДАЧ --- */
 .task {
     margin-top: 15px;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    animation: slideIn 0.5s ease-out;
+    transition: 0.3s;
+    cursor: grab;
+}
+.task:active { cursor: grabbing; }
+
+/* Главный пункт */
+.task-root {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--frost-border);
+    border-left: 5px solid var(--ice-blue);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.task-root .taskTitle { font-size: 1.2rem; font-weight: 600; color: var(--ice-blue); }
+
+/* Дочерний пункт */
+.task-sub {
+    margin-left: 40px;
+    margin-top: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px dashed rgba(255,255,255,0.1);
+    padding: 12px 15px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+}
+.task-sub::before { content: "↳ "; color: var(--ice-blue); font-weight: bold; }
+
+/* Подсветка при перетаскивании */
+.drag-over {
+    border: 2px dashed var(--ice-blue) !important;
+    background: rgba(125, 211, 252, 0.1) !important;
 }
 
-@keyframes slideIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+.taskHeader { display: flex; justify-content: space-between; align-items: center; }
+.actions { display: flex; gap: 8px; align-items: center; }
 
-.task-main {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(125, 211, 252, 0.2);
-    border-left: 4px solid var(--ice-blue);
+/* Индикатор прогресса */
+.progressBar { height: 6px; background: #000; border-radius: 10px; margin-top: 12px; overflow: hidden; }
+.progressFill { height: 100%; background: var(--ice-blue); box-shadow: 0 0 10px var(--ice-blue); transition: 0.5s; }
+
+/* Режим КАРТЫ (Обзор) */
+.mapMode {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+.mapNode {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--frost-border);
     padding: 20px;
     border-radius: 15px;
+    text-align: center;
 }
 
-.task-sub {
-    margin-left: 50px;
-    background: rgba(2, 6, 23, 0.4);
-    border: 1px dashed rgba(125, 211, 252, 0.3);
-    padding: 15px;
-    border-radius: 12px;
-    position: relative;
-}
-
-.task-sub::before {
-    content: "❄";
-    position: absolute;
-    left: -30px;
-    top: 15px;
-    color: var(--ice-blue);
-}
-
-.taskHeader { display: flex; justify-content: space-between; align-items: center; gap: 15px; }
-
-.title-text { font-size: 1.1rem; font-weight: 600; color: #bae6fd; }
-
-.status-badge {
-    font-size: 0.8rem;
-    padding: 4px 10px;
-    border-radius: 20px;
-    background: rgba(0,0,0,0.3);
-}
-
-.progressBar {
-    height: 6px;
-    background: #020617;
-    border-radius: 10px;
-    margin-top: 15px;
-    overflow: hidden;
-}
-
-.progressFill {
-    height: 100%;
-    background: linear-gradient(90deg, #0ea5e9, #7dd3fc);
-    box-shadow: 0 0 10px #7dd3fc;
-}
-
-.btn-edit { background: none; border: 1px solid #94a3b8; color: #94a3b8; padding: 5px 10px; font-size: 12px; }
-.btn-delete { background: none; color: #f87171; border: 1px solid #f87171; padding: 5px 10px; font-size: 12px; margin-left: 5px;}
-
-.mode-switch { margin-bottom: 30px; display: flex; gap: 10px; justify-content: center; }
+.mode-btns { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
+.mode-btns button { background: rgba(255,255,255,0.1); border: 1px solid var(--frost-border); }
+.mode-btns button.active { background: var(--ice-blue); color: #000; }
 
 </style>
 </head>
@@ -164,137 +141,187 @@ button:hover {
 <div class="container">
     <h1>ROADMAP</h1>
 
-    <div class="mode-switch">
-        <button onclick="setMode('list')">Список</button>
-        <button onclick="setMode('map')">Карта инея</button>
+    <div class="mode-btns">
+        <button id="btn-list" class="active" onclick="setMode('list')">📋 Список задач</button>
+        <button id="btn-map" onclick="setMode('map')">🗺 Обзор прогресса</button>
     </div>
 
-    <div class="card">
+    <div id="editor-zone" class="card">
         <div class="row">
-            <input id="title" placeholder="Название этапа..." style="flex: 2" />
+            <input id="title" placeholder="Название задачи..." style="flex: 2" />
             <select id="status">
-                <option value="todo">Заморожено</option>
-                <option value="progress">В таянии (Работа)</option>
-                <option value="done">Реализовано</option>
+                <option value="todo">❄️ Заморожено</option>
+                <option value="progress">💧 В работе</option>
+                <option value="done">✨ Готово</option>
             </select>
-            <input type="date" id="deadline" />
         </div>
-        <textarea id="desc" placeholder="Описание задачи..." style="width:100%; margin-top:15px;"></textarea>
-        <button onclick="addTask()" style="margin-top:15px; width:100%;">Добавить в план</button>
+        <textarea id="desc" placeholder="Краткое описание..." style="width: 100%; height: 60px;"></textarea>
+        <button onclick="addTask()" style="width: 100%; margin-top: 10px;">СОЗДАТЬ ПУНКТ</button>
     </div>
 
-    <div id="list"></div>
+    <div id="content"></div>
 </div>
 
 <script>
-let tasks = JSON.parse(localStorage.getItem("roadmap_tasks")||"[]");
+let tasks = JSON.parse(localStorage.getItem("roadmap_data") || "[]");
 let mode = 'list';
+let draggedId = null;
 
-function save(){ localStorage.setItem("roadmap_tasks", JSON.stringify(tasks)); }
+function save() { localStorage.setItem("roadmap_data", JSON.stringify(tasks)); }
 
-function addTask(){
-    let title = document.getElementById('title').value;
-    let desc = document.getElementById('desc').value;
-    let status = document.getElementById('status').value;
-    let deadline = document.getElementById('deadline').value;
+function setMode(m) {
+    mode = m;
+    document.getElementById('btn-list').className = (m === 'list' ? 'active' : '');
+    document.getElementById('btn-map').className = (m === 'map' ? 'active' : '');
+    document.getElementById('editor-zone').style.display = (m === 'list' ? 'block' : 'none');
+    render();
+}
 
-    if(!title) return;
+function addTask() {
+    const title = document.getElementById('title').value;
+    const desc = document.getElementById('desc').value;
+    const status = document.getElementById('status').value;
+    if (!title) return;
 
-    tasks.push({ id: Date.now(), title, desc, status, deadline, parent: null });
+    tasks.push({ id: Date.now(), title, desc, status, parent: null });
     save();
     render();
     document.getElementById('title').value = '';
+    document.getElementById('desc').value = '';
 }
 
-function setMode(m) { mode = m; render(); }
-
-function removeTask(id){
+function removeTask(id) {
+    if(!confirm("Удалить пункт?")) return;
     tasks = tasks.filter(t => t.id !== id && t.parent !== id);
     save();
     render();
 }
 
-function editTask(id){
+function editTask(id) {
     let t = tasks.find(x => x.id === id);
-    let n = prompt("Новое название:", t.title);
-    if(n) t.title = n;
+    let newTitle = prompt("Изменить название:", t.title);
+    if(newTitle) t.title = newTitle;
     save();
     render();
 }
 
-function dropToTask(draggedId, targetId){
-    if(draggedId === targetId) return;
-    let task = tasks.find(t => t.id === draggedId);
-    task.parent = targetId;
+function changeStatus(id, newStatus) {
+    let t = tasks.find(x => x.id === id);
+    if(t) t.status = newStatus;
     save();
     render();
 }
 
-function calculateProgress(id){
-    let children = tasks.filter(t => t.parent === id);
-    if(children.length === 0) return tasks.find(t => t.id === id).status === 'done' ? 100 : 0;
+// Drag & Drop
+function onDragStart(id) { draggedId = id; }
+function onDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+function onDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
+function onDrop(e, targetId) {
+    e.preventDefault();
+    e.currentTarget.classList.remove('drag-over');
+    if (draggedId === targetId) return;
+
+    let draggedTask = tasks.find(t => t.id === draggedId);
+    let targetTask = tasks.find(t => t.id === targetId);
+
+    // Только если цель - не подзадача сама по себе (1 уровень вложенности)
+    if (draggedTask && targetTask && targetTask.parent === null) {
+        draggedTask.parent = targetId;
+        save();
+        render();
+    }
+}
+
+function calculateProgress(parentId) {
+    let children = tasks.filter(t => t.parent === parentId);
+    if (children.length === 0) return tasks.find(t => t.id === parentId).status === 'done' ? 100 : 0;
     let done = children.filter(c => c.status === 'done').length;
     return Math.round((done / children.length) * 100);
 }
 
-function render(){
-    const list = document.getElementById('list');
-    list.innerHTML = '';
-    const roots = tasks.filter(t => !t.parent);
+function render() {
+    const container = document.getElementById('content');
+    container.innerHTML = '';
 
-    roots.forEach(task => {
+    if (mode === 'map') {
+        container.className = 'mapMode';
+        tasks.filter(t => !t.parent).forEach(root => {
+            let prog = calculateProgress(root.id);
+            let node = document.createElement('div');
+            node.className = 'mapNode';
+            node.innerHTML = `
+                <div style="font-weight:bold; color:var(--ice-blue)">${root.title}</div>
+                <div style="font-size:0.8rem; margin:10px 0">${prog}%</div>
+                <div class="progressBar"><div class="progressFill" style="width:${prog}%"></div></div>
+            `;
+            container.appendChild(node);
+        });
+        return;
+    }
+
+    container.className = '';
+    const rootTasks = tasks.filter(t => !t.parent);
+
+    rootTasks.forEach(task => {
+        let prog = calculateProgress(task.id);
         let div = document.createElement('div');
-        div.className = 'task task-main';
+        div.className = 'task task-root';
         div.draggable = true;
-        div.ondragstart = (e) => e.dataTransfer.setData("text", task.id);
-        div.ondragover = (e) => e.preventDefault();
-        div.ondrop = (e) => {
-            e.preventDefault();
-            dropToTask(parseInt(e.dataTransfer.getData("text")), task.id);
-        };
+        div.ondragstart = () => onDragStart(task.id);
+        div.ondragover = (e) => onDragOver(e);
+        div.ondragleave = (e) => onDragLeave(e);
+        div.ondrop = (e) => onDrop(e, task.id);
 
-        let progress = calculateProgress(task.id);
-        
         div.innerHTML = `
             <div class="taskHeader">
-                <span class="title-text">${task.title}</span>
-                <div>
-                    <span class="status-badge">${task.status}</span>
-                    <button class="btn-edit" onclick="editTask(${task.id})">✎</button>
-                    <button class="btn-delete" onclick="removeTask(${task.id})">✕</button>
+                <div class="taskTitle">${task.title}</div>
+                <div class="actions">
+                    <select onchange="changeStatus(${task.id}, this.value)">
+                        <option value="todo" ${task.status==='todo'?'selected':''}>❄️</option>
+                        <option value="progress" ${task.status==='progress'?'selected':''}>💧</option>
+                        <option value="done" ${task.status==='done'?'selected':''}>✨</option>
+                    </select>
+                    <button onclick="editTask(${task.id})" style="padding:5px 10px; background:none; border:1px solid var(--frost-border)">✎</button>
+                    <button onclick="removeTask(${task.id})" style="padding:5px 10px; background:rgba(248,113,113,0.2)">✕</button>
                 </div>
             </div>
-            <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 10px;">${task.desc}</div>
-            <div class="progressBar"><div class="progressFill" style="width: ${progress}%"></div></div>
+            <div style="font-size:0.85rem; opacity:0.7; margin-top:8px">${task.desc}</div>
+            <div class="progressBar"><div class="progressFill" style="width:${prog}%"></div></div>
         `;
+        container.appendChild(div);
 
-        list.appendChild(div);
-
-        // Рендер подзадач
+        // Подзадачи
         tasks.filter(t => t.parent === task.id).forEach(sub => {
             let subDiv = document.createElement('div');
             subDiv.className = 'task task-sub';
             subDiv.innerHTML = `
                 <div class="taskHeader">
-                    <span>${sub.title}</span>
-                    <button class="btn-delete" onclick="removeTask(${sub.id})">✕</button>
+                    <div>${sub.title}</div>
+                    <div class="actions">
+                        <select onchange="changeStatus(${sub.id}, this.value)">
+                            <option value="todo" ${sub.status==='todo'?'selected':''}>❄️</option>
+                            <option value="progress" ${sub.status==='progress'?'selected':''}>💧</option>
+                            <option value="done" ${sub.status==='done'?'selected':''}>✨</option>
+                        </select>
+                        <button onclick="removeTask(${sub.id})" style="background:none; color:red">✕</button>
+                    </div>
                 </div>
             `;
-            list.appendChild(subDiv);
+            container.appendChild(subDiv);
         });
     });
 }
 
 // Снег
-let snowCont = document.getElementById('snow');
-for(let i=0; i<50; i++){
+const snow = document.getElementById('snow');
+for(let i=0; i<30; i++){
     let s = document.createElement('span');
     s.innerHTML = '❄';
     s.style.left = Math.random()*100+'%';
-    s.style.fontSize = (Math.random()*20+10)+'px';
+    s.style.fontSize = (Math.random()*15+10)+'px';
     s.style.animationDuration = (Math.random()*10+5)+'s';
     s.style.animationDelay = Math.random()*5+'s';
-    snowCont.appendChild(s);
+    snow.appendChild(s);
 }
 
 render();
